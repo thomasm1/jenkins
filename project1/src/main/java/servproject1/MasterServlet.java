@@ -57,8 +57,8 @@ public class MasterServlet extends HttpServlet {
 	}
 	private void setAccessControlHeaders(HttpServletResponse resp) {
 //		resp.setHeader("Access-Control-Allow-Origin", "http://localhost:8090");
-		resp.setHeader("Access-Control-Allow-Origin", "*");  
 //		resp.setHeader("Access-Control-Allow-Methods", "GET"); 
+		resp.setHeader("Access-Control-Allow-Origin", "*");  
 		resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD"); 
 	}
 

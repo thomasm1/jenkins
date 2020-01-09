@@ -39,7 +39,7 @@ public class MasterServlet extends HttpServlet {
 	// for Preflight
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		setAccessControlHeaders(resp);
+		setAccessControlHeaders(resp);
 		addCorsHeader(resp);
 		resp.setStatus(HttpServletResponse.SC_OK);
 	}
@@ -48,16 +48,18 @@ public class MasterServlet extends HttpServlet {
 //		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
 		resp.addHeader("Vary", "Origin");
 		// if I don't care about getting my cookie, this will work
-		 resp.addHeader("Access-Control-Allow-Origin", "*");
-		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
+//		 resp.addHeader("Access-Control-Allow-Origin", "*");
+//		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 		resp.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
 		resp.addHeader("Access-Control-Allow-Credentials", "true");
 		resp.addHeader("Access-Control-Max-Age", "1728000");
 		resp.addHeader("Produces", "application/json");
 	}
-//	private void setAccessControlHeaders(HttpServletResponse resp) {
+	private void setAccessControlHeaders(HttpServletResponse resp) {
 //		resp.setHeader("Access-Control-Allow-Origin", "http://localhost:8090");
-//		resp.setHeader("Access-Control-Allow-Methods", "GET");
-//	}
+		resp.setHeader("Access-Control-Allow-Origin", "*");  
+//		resp.setHeader("Access-Control-Allow-Methods", "GET"); 
+		resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD"); 
+	}
 
 }

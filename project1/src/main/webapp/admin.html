@@ -17,6 +17,13 @@
 		.spinner {
 			display: none;
 		}
+		.message-box {
+		display:block !important;
+		background-color:#a2c8a27d;
+		padding:3px;
+		border-radius:3px;
+		border:solid .5px green;
+		}
 	</style>
 </head>
 
@@ -25,13 +32,9 @@
 
 		<ul class="nav navbar-nav ">
 
-			<span id="role"></span>
-
-			</li>
-
-
+			<span id="role"></span>  
 			<li><a href="/project1/index.html">REQUESTS</a></li>
-			<li class="active"><a href="/project1/admin.html">ADMIN</a></li>
+			<li class="active"><a href="/project1/admin.html">STATUS</a></li>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right userdata">
@@ -44,7 +47,7 @@
 						<button class="btn btn-default logout">&nbsp;&nbsp;Sign Out&nbsp;&nbsp;</button>&nbsp;&nbsp;
 					</a>
 				</div>
-
+				<div>
 				<span>User</span><span class="id" id="headerId"> </span><br />
 				<span>ID</span> <span class="id" id="userId"></span><br />
 				<span>Dept</span> <span class="id" id="userDept"></span><br />
@@ -53,12 +56,15 @@
 
 			</li>
 		</ul>
-		<span class="header-title">
-			<h3>ADMIN PORTAL</h3>
-		</span>
+	 
 	</nav>
-	<div class="container">
-
+	<div class="contain">
+<div  id="viewControl">
+	<button class="t a btn btn-primary" onclick="getReq">Request Look-Up</button>
+	<input class="t" placeholder="id#" min="100" id="reqById" type="number">
+</div>
+<div id="viewSpace">  
+ </div>
 		<div id="detail" class="row ">
 			<div class=" col col-xs-3">
 				<div>
@@ -89,6 +95,7 @@
 
 				</div>
 			</div>
+			
 		</div>
 
 		<h3 class="detail">My Teams' Reimbursement Requests </h3>
@@ -144,7 +151,7 @@
 
 		updateReason.style.backgroundColor = "lightgray";
 		msg.innerHTML = "<p>Sending Evaluation ...<br /></p>";
-
+		updateReq(stage, reqUpdateId, supervisorId, text);
 		setTimeout(function () {
 			msg.innerHTML = "<p>Submitted.</p><br />"
 			setTimeout(function () {
@@ -155,7 +162,7 @@
 					updateReason.style.display = "none";
 					showReason.style.display = "none";
 					console.log("Finished sending:");
-					updateReq(stage, reqUpdateId, supervisorId, text);
+					 
 				}, 100);
 			}, 300);
 		}, 600);
@@ -171,9 +178,31 @@
 		updateReq(stage, reqUpdateId, supervisorId, text);
 
 	}
+	const approveDhead = function () {
+		let stage = 1;
+		let reqUpdateId = document.getElementById("reqById").value;
+		let text = "Approved By Supervisor"
+		let supervisorId = getCookie("sessId");
+
+		updateReq(stage, reqUpdateId, supervisorId, text);
+
+	}
+	const approveBenco = function () {
+		let stage = 1;
+		let reqUpdateId = document.getElementById("reqById").value;
+		let text = "Approved By Supervisor"
+		let supervisorId = getCookie("sessId");
+
+		updateReq(stage, reqUpdateId, supervisorId, text);
+
+	}
 	// UPDATE REQUEST BY ID  
 	updateReq = function (stage, reqUpdateId, supervisorId, text) {
-
+		
+		superText = text;
+		dheadText = "";
+		bencoText = "";
+		reqText = "";
 		let xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = function () {
@@ -185,9 +214,8 @@
 
 		xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhttp.send("reqId=" + reqUpdateId + "&stage=" + stage);
-
-		console.log("xhttp sent: reqId: " + reqUpdateId + "; stage: " + stage);
+		xhttp.send("reqId=" + reqUpdateId + "&stage=" + stage + "&superText="+superText+"&dheadText="+dheadText+"&bencoText="+bencoText+"&reqText="+reqText);
+		console.log("xhttp sent: reqId: " + reqUpdateId + "&stage: " + stage+"&superText="+superText+"&dheadText="+dheadText+"&bencoText="+bencoText+"&reqText="+reqText);
 
 		document.getElementById("editSpace").innerHTML = "";
 		let spinner = document.getElementById("spinner");
@@ -219,15 +247,21 @@
             	<div class="col col-xs-6">
               		<h6><strong>Request<sup>#${d.reqId}</sup>: </strong>${d.reqName}</h6>
             	 	<h6><strong>Status: </strong><em><strong>${status}</strong></em></h6> 
-            	    <h6><strong>Submitted: </strong>${d.reqDatetime}</h6> 
-				 	<h6><strong>Location: </strong>${d.reqPlace}</h6> 
-				 	<h6><strong>Grading Type: </strong>${d.reqGradeType}</h6> 
-				 	<h6><strong>Grading Cutoff: </strong>${d.reqGradePass}</h6> 
+				 	<h6><strong>Amount: </strong><em>$${adjusted}</em> (<small>orig. </small>$${d.reqAmt})</h6>  
+				 	<div class="message-box">
+					<h6><strong>Messaging Updates</strong></h6>
+            	 	<h6> Super: <em><strong>${d.superText}</strong></em></h6> 
+            	 	<h6> Dept: <em><strong>${d.dheadText}</strong></em></h6> 
+            	 	<h6> Benco: <em><strong>${d.bencoText}</strong></em></h6> 
+            	 	<h6> Requestor: <em><strong>${d.reqText}</strong></em></h6> 
+			 		</div>
 			 	</div>
             	<div class="col col-xs-6"> 
 				 	<h6><strong>Event Type: </strong>${d.reqType}</h6> 
-				 	<h6><strong>Requested Amt: </strong>$${d.reqAmt}</h6> 
-				 	<h6><strong>Adjusted Amt: </strong><em>$${adjusted}</em></h6> 
+             	    <h6><strong>Submitted: </strong>${d.reqDatetime}</h6> 
+				 	<h6><strong>Location: </strong>${d.reqPlace}</h6> 
+				 	<h6><strong>Grading Type: </strong>${d.reqGradeType}</h6> 
+				 	<h6><strong>Grading Cutoff: </strong>${d.reqGradePass}</h6> 
                 	<h6><strong>Description: </strong>${d.reqDesc}</h6> 
 				 	<h6><strong>Justification: </strong>${d.reqJustify}</h6> 
 				 	 
@@ -245,9 +279,21 @@
 			 	</div>
             	</div>
               `;
+				let requestContent =`
+					<div class="message-box">
+					<h6><strong>Messaging Updates</strong></h6>
+            	 	<h6> Super: <em><strong>${d.superText}</strong></em></h6> 
+            	 	<h6> Dept: <em><strong>${d.dheadText}</strong></em></h6> 
+            	 	<h6> Benco: <em><strong>${d.bencoText}</strong></em></h6> 
+            	 	<h6> Requestor: <em><strong>${d.reqText}</strong></em></h6> 
+			 		</div>
+				`;
+					let status = document.getElementById("viewSpace");
+					status.innerHTML = requestContent;
 
 					let info = document.getElementById("editSpace");
 					info.innerHTML = infoContent;
+					
 				} else {
 					let infoContent = ` Oops! Id #${reqId} not found, try another!`;
 					let info = document.getElementById("editSpace");

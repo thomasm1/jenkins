@@ -1,0 +1,10 @@
+1. Updates now are unreliable from changes post-presentation. 
+	==> Updates are successful, but not committed. Need commit in Statement?
+
+2. 3 login loops: efficient? 
+	I. 1st Loop, USERS -> username & password match DB.
+	II. 2nd Loop, USERS -> users' listing superId matches logged-in user? ==> Supervisor
+	IIIa. 3rd Loop, USERS -> user a dept head? 
+	IIIb. 4th Loop, USERS, DEPT -> all in the d-head's dept's belong to DHEAD responsible.
+
+3. 

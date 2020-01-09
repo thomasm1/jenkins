@@ -19,9 +19,9 @@ body {
     padding: 5px;
     float: left;
     color: green;
-    z-index: 2;
+    z-index: 3 ;
     background: lightgrey;
-    transform: translateY(15px);
+    transform: translateY(2px);
 }
 
 .detail {
@@ -35,8 +35,8 @@ body {
     height: 210px;
 }
 
-.container {
-    padding: 0px 3%;
+.contain {
+    padding: 5px 3%;
     min-height: 800px;
 }
 
@@ -50,7 +50,7 @@ strong {
 
 h2,
 h3 {
-    text-align: center;
+    margin-left:35%;
 }
 
 nav {
@@ -74,7 +74,7 @@ nav.navbar {
     border-bottom: solid 1px steelblue;
 }
 
-span.header-title h3 {
+h3.header-title {
     /*transform:translate(-300px,70px);*/
     position: absolute;
     top: 70px;

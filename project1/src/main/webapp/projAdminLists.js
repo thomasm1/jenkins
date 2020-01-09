@@ -4,7 +4,11 @@ let checkRole = function () {
 	let detail = document.getElementById("detail");
 	detail.style.display = "none";
 	if ((adminId == 1) | (adminId == 2) | (adminId == 3) | (adminId == 4) | (adminId == 1160)) {
-
+		let viewSpace = document.getElementById("viewSpace");
+		viewSpace.style.display = "none";
+		let viewControl = document.getElementById("viewControl");
+		viewControl.style.display = "none";
+		
 		let role = document.getElementById("role");
 		detail.style.display = "block";
 		role.style.display = 'block';
@@ -12,9 +16,7 @@ let checkRole = function () {
 		let deptCharges = [];
 		role.innerHTML = ` Supervisor Role for ID's:<br /> `;
 
-
 		for (i = 1; i < 5; i++) {
-
 
 			detail.style.display = "block";
 			charges[i] = getCookie("sessOid" + i);

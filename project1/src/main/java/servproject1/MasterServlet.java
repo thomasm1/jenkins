@@ -45,7 +45,7 @@ public class MasterServlet extends HttpServlet {
 	}
 	private void addCorsHeader(HttpServletResponse resp) {
 //	    log.trace("adding headers");
-		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+//		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
 		resp.addHeader("Vary", "Origin");
 		// if I don't care about getting my cookie, this will work
 		 resp.addHeader("Access-Control-Allow-Origin", "*");

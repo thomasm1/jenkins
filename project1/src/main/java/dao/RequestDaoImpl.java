@@ -24,7 +24,7 @@ public class RequestDaoImpl implements RequestDao {
 //		DB.users.put(u.getReqId(), u);
 //		return true;
 		System.out.println("Submitting to ReqDaoImpl: "+u);
-		String sql = "CALL add_new_reqtable(?,?,?,?, ?,?,?,? ,?,?,?, ?,?,?,?)";
+		String sql = "CALL add_new_reqtable(?,?,?,?, ?,?,?,? ,?,?,?)";
 		try {
 			CallableStatement cs = conn.prepareCall(sql);//broke here!!
 //			cs.setString(1, Integer.toString(u.getReqId()));
@@ -32,21 +32,14 @@ public class RequestDaoImpl implements RequestDao {
 			cs.setString(2, u.getReqName());
 			cs.setString(3, u.getReqType());
 			cs.setString(4, u.getReqDesc());
-			
 			cs.setString(5, u.getReqJustify());
 			cs.setString(6, u.getReqDatetime());
 			cs.setString(7, u.getReqPlace());
 			cs.setString(8, u.getReqGradeType());
-			
 			cs.setString(9, u.getReqGradePass());
 			cs.setString(10, Double.toString(u.getReqAmt()));
 			cs.setString(11, Integer.toString(u.getStage()));
-
-			cs.setString(12, u.getSuperText());
-			cs.setString(13, u.getDheadText());
-			cs.setString(14, u.getBencoText());
-			cs.setString(15, u.getReqText());
-			System.out.println("success to request!: stage #"+u.getStage());
+			System.out.println("success to request!: stage#"+u.getStage());
 			cs.execute();
 			return true;
 
@@ -80,12 +73,7 @@ public class RequestDaoImpl implements RequestDao {
 					rs.getString("reqGradeType"),  
 					rs.getString("reqGradePass"), 
 					rs.getDouble("reqAmt"), 
-					rs.getInt("stage"),
-
-					rs.getString("superText"),  
-					rs.getString("dheadText"),  
-					rs.getString("bencoText"),
-					rs.getString("reqText")); 
+					rs.getInt("stage")); 
 			}
 	}		catch (Exception e) {
 		System.out.println("SQL issue with getting REQ: \n"+e);
@@ -145,13 +133,7 @@ public class RequestDaoImpl implements RequestDao {
 						rs.getString("reqGradeType"),  
 						rs.getString("reqGradePass"), 
 						rs.getDouble("reqAmt"), 
-						rs.getInt("stage"),
-
-						rs.getString("superText"),  
-						rs.getString("dheadText"),  
-						rs.getString("bencoText"),
-						rs.getString("reqText")
-						)); 
+						rs.getInt("stage"))); 
 			}
 			System.out.println(" WHERE userid= SQL is All Good !");
 			return reqArr;
@@ -186,12 +168,7 @@ public class RequestDaoImpl implements RequestDao {
 						rs.getString("reqGradeType"),  
 						rs.getString("reqGradePass"), 
 						rs.getDouble("reqAmt"), 
-						rs.getInt("stage"),
-
-						rs.getString("superText"),  
-						rs.getString("dheadText"),  
-						rs.getString("bencoText"),
-						rs.getString("reqText"))); 
+						rs.getInt("stage"))); 
 			}
 			System.out.println("SQL is All Good!");
 			return reqArr;
@@ -207,8 +184,8 @@ public class RequestDaoImpl implements RequestDao {
 //		DB.users.replace(change.getReqId(), change);
 //		return true;
 		System.out.println("Submitting from ReqDaoImpl: "+change);
-//	    String sql = "UPDATE reqtable SET  userId=?, reqName=?, reqType=?,  reqDesc=?,  reqJustify=?, reqDatetime=?, reqPlace=?, reqGradeType=?, reqGradePass=?,  reqAmt=?, stage=?, superText=?, dheadText=?, bencoText=?, reqText=?  WHERE reqId = ?";
-		String sql = "UPDATE reqtable SET stage = ?, superText=?, dheadText=?, bencoText=?, reqText=?   WHERE reqId = ? ";	
+//	    String sql = "UPDATE reqtable SET  userId=?, reqName=?, reqType=?,  reqDesc=?,  reqJustify=?,  reqDatetime=?, reqPlace=?, reqGradeType=?, reqGradePass=?,  reqAmt=?, stage=? WHERE reqId = ?";
+		String sql = "UPDATE reqtable SET stage = ? WHERE reqId = ?";	
 		try {
 			PreparedStatement ps = conn.prepareCall(sql); 
 //			ps.setString(1, Integer.toString(change.getUserId()));
@@ -223,13 +200,8 @@ public class RequestDaoImpl implements RequestDao {
 //			ps.setString(10, Double.toString(change.getReqAmt()));
 			ps.setString(1, Integer.toString(change.getStage()));
 			ps.setString(2, Integer.toString(change.getReqId()));
-
-			ps.setString(3, change.getSuperText());
-			ps.setString(4, change.getDheadText());
-			ps.setString(5, change.getBencoText());
-			ps.setString(6, change.getReqText());
 			ps.executeQuery();
-			System.out.println("success updating request!: reqId#"+change.getReqId()+": getStage#"+change.getStage()+": getSuperText#"+change.getSuperText());
+			System.out.println("success updating request!: reqId#"+change.getReqId());
 			return true;
 
 		} catch (SQLException e) {

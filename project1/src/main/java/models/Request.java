@@ -10,34 +10,33 @@ public class Request {
 	private String reqDatetime;
 	private String reqPlace;
 	private String reqGradeType;
-	private String reqGradePass; 
+	private String reqGradePass;
 	private double reqAmt;
 	private int stage;
-	private String superText;
-	private String dheadText;
-	private String bencoText;
-	private String reqText; 
+	
+	public Request() {
+		super();
+	}
 
 	public Request(int reqId, int userId, String reqName, String reqType, String reqDesc, String reqJustify,
-			String reqDatetime, String reqPlace, String reqGradeType, String reqGradePass, double reqAmt, int stage,
-			String superText, String dheadText, String bencoText, String reqText) {
+			String reqDatetime, String reqPlace, String reqGradeType, String reqGradePass, double reqAmt, int stage) {
 		super();
 		this.reqId = reqId;
 		this.userId = userId;
+		
 		this.reqName = reqName;
 		this.reqType = reqType;
 		this.reqDesc = reqDesc;
+		
 		this.reqJustify = reqJustify;
 		this.reqDatetime = reqDatetime;
 		this.reqPlace = reqPlace;
+		
 		this.reqGradeType = reqGradeType;
 		this.reqGradePass = reqGradePass;
+		
 		this.reqAmt = reqAmt;
 		this.stage = stage;
-		this.superText = superText;
-		this.dheadText = dheadText;
-		this.bencoText = bencoText;
-		this.reqText = reqText;
 	}
 
 	public int getReqId() {
@@ -136,45 +135,12 @@ public class Request {
 		this.stage = stage;
 	}
 
-	public String getSuperText() {
-		return superText;
-	}
-	public void setSuperText(String superText) {
-		this.superText = superText;
-	}
-
-	public String getDheadText() {
-		return dheadText;
-	}
-
-	public void setDheadText(String dheadText) {
-		this.dheadText = dheadText;
-	}
-
-	public String getBencoText() {
-		return bencoText;
-	}
-
-	public void setBencoText(String bencoText) {
-		this.bencoText = bencoText;
-	}
-
-	public String getReqText() {
-		return reqText;
-	}
-
-	public void setReqText(String reqText) {
-		this.reqText = reqText;
-	}
-
 	@Override
 	public String toString() {
 		return "Request [reqId=" + reqId + ", userId=" + userId + ", reqName=" + reqName + ", reqType=" + reqType
 				+ ", reqDesc=" + reqDesc + ", reqJustify=" + reqJustify + ", reqDatetime=" + reqDatetime + ", reqPlace="
 				+ reqPlace + ", reqGradeType=" + reqGradeType + ", reqGradePass=" + reqGradePass + ", reqAmt=" + reqAmt
-				+ ", stage=" + stage + ", superText=" + superText + ", dheadText=" + dheadText + ", bencoText="
-				+ bencoText + ", reqText=" + reqText + "]";
+				+ ", stage=" + stage + "]";
 	}
- 
 
 }

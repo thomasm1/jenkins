@@ -33,13 +33,8 @@ public class RequestWebService {
 //		int stage = Integer.parseInt(request.getParameter("stage"));
 		 int stage = 0; // Starts at stage 0
 		 int reqId = 99; // Procedure auto-loads reqId
-		 String superText = "";
-		 String dheadText = "";
-		 String bencoText = ""; 
-		 String reqText = "";
-		 
-		 // add db using these fields
-	 	Request d = new Request(reqId, userId, reqName, reqType, reqDesc, reqJustify, reqDatetime, reqPlace, reqGradeType, reqGradePass, reqAmt, stage, superText, dheadText, bencoText, reqText);
+		// add db using these fields
+	 	Request d = new Request(reqId, userId, reqName, reqType, reqDesc, reqJustify, reqDatetime, reqPlace, reqGradeType, reqGradePass, reqAmt, stage);
 		System.out.println("ReqWebServ submit: "+d);
 		System.out.println("ReqWebServ stage: "+stage);
 		// Call RequestService to add it.
@@ -152,15 +147,11 @@ public class RequestWebService {
 //		String reqGradePass = request.getParameter("reqGradePass");  
 //		double reqAmt = Double.parseDouble(request.getParameter("reqAmt")); 
 		int stage = Integer.parseInt(request.getParameter("stage"));
-		String superText = request.getParameter("superText"); 
-		String dheadText = request.getParameter("dheadText"); 
-		String bencoText = request.getParameter("bencoText");  
-		String reqText = request.getParameter("reqText");  
-		
+	 
 		Request r = RequestService.getReq(reqId);
 		// add db using these fields
 		System.out.println("ReqWebServ submit: "+r);
-	 	 r = new Request(reqId, r.getReqId(), r.getReqName(), r.getReqType(), r.getReqDesc(), r.getReqJustify(), r.getReqDatetime(), r.getReqPlace(), r.getReqGradeType(), r.getReqGradePass(), r.getReqAmt(), stage, superText, dheadText, bencoText, reqText);
+	 	 r = new Request(reqId, r.getReqId(), r.getReqName(), r.getReqType(), r.getReqDesc(), r.getReqJustify(), r.getReqDatetime(), r.getReqPlace(), r.getReqGradeType(), r.getReqGradePass(), r.getReqAmt(), stage);
 		// Call RequestService to update it.
 		RequestService.updateReq(r);
  

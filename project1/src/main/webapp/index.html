@@ -14,17 +14,15 @@
 			position: absolute;
 			bottom: 0;
 		}
-
 		#messages {
-			display: none;
-			color: green;
-		}
-
-		#bal {
-			display: block;
-			float: left;
-			color: green;
-			transform: translateY(15px);
+			display:none;
+			color:green;
+			}
+			#bal {
+		display: block;
+		float:left;
+		color:green;
+		transform:translateY(15px);
 		}
 	</style>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
@@ -42,12 +40,12 @@
 	<!-- getUser(); -->
 	<nav class="navbar navbar-default">
 		<ul class="nav navbar-nav navleft">
-			<li>
-
-				<span id="bal"></span>
-			</li>
+			<li>  
+					 
+				<span id="bal"></span> 
+				 </li>
 			<li class="active"><a href="/project1/index.html">REQUESTS</a></li>
-			<li><a href="/project1/admin.html">STATUS</a></li>
+			<li><a href="/project1/admin.html" >ADMIN</a></li>
 
 		</ul>
 
@@ -70,7 +68,7 @@
 			</li>
 		</ul>
 		<span class="header-title">
-			<h3>REQUESTS</h3>
+			<h3>MY REQUESTS</h3>
 		</span>
 	</nav>
 	<div class="container">
@@ -80,7 +78,7 @@
 				<hr>
 				<table id="table">
 
-
+				 
 				</table>
 
 			</div>
@@ -98,22 +96,17 @@
 					<hr>
 					<input placeholder="request id # ..." min="100" size="10px" id="autoreqid" type="number">
 					<input placeholder="supervisor id #" min="100" size="10px" id="superreqid" type="number">
-					<button class="btn btn-primary"
-						title="Set a 1-week timer and if Super has not replied, your request is forwarded a step to Dept. Head"
-						style="padding:3px 15px;margin-top:5px" onclick="setSuperTimeout()">&nbsp;&nbsp;&nbsp;Enroll in
-						Fast-Track!&nbsp;&nbsp;&nbsp;
-					</button>
-					<div id="messages"></div>
+					 <button class="btn btn-primary" title="Set a 1-week timer and if Super has not replied, your request is forwarded a step to Dept. Head" style="padding:3px 15px;margin-top:5px" onclick="setSuperTimeout()">&nbsp;&nbsp;&nbsp;Enroll in Fast-Track!&nbsp;&nbsp;&nbsp;
+						</button>
+						 <div id="messages"></div>
 					<hr>
 				</div>
 				<h4 id="text">To: UserId</h4>
 				<input id="currUserId" type="number">
-				
-				<h4 id="reqId">Request Number</h4>
-				<input id="reqId" type="number">
-				
+				<h4 id="text">Request Number</h4>
+				<input id="reqId" type="text">
 				<h4 id="text">Message</h4>
-				<input id="currDocs"  type="text">
+				<input id="currDocs" type="number">
 				<button class="btn btn-primary" onclick="addTask()">Send</button>
 
 			</div>
@@ -127,36 +120,32 @@
 				<small>Copyright &copy; 2020 &nbsp;</small></p>
 		</div>
 	</footer>
-	<div id="benco1">
-		<div id="benco2">
-			<div class="detail"></div>
-		</div>
-	</div>
+    <div id="benco1"><div id="benco2"><div class="detail"></div></div></div>
 </body>
 <script>
 
-	//SET TIMEOUT FOR 2 MINS 120 * 1000      120.000
-	//(USUALLY 1 WEEK) == 604800 * 1000 = 604.800.000
-	let setSuperTimeout = function () {
-		let messages = document.getElementById("messages");
-		messages.style.display = "block";
-		messages.innerHTML = "Auto-Approve sent, check status in one week.";
-		console.log(messages);
-		setTimeout(function () {
-			let stage = 2;
-			let autoreqid = document.getElementById("autoreqid");
-			let reqUpdateId = ""; // declare & erase subsequent
-			reqUpdateId = autoreqid.value; // append
+//SET TIMEOUT FOR 2 MINS 120 * 1000      120.000
+//(USUALLY 1 WEEK) == 604800 * 1000 = 604.800.000
+let setSuperTimeout = function( ) {
+	let messages = document.getElementById("messages");
+	messages.style.display="block";
+	messages.innerHTML = "Auto-Approve sent, check status in one week.";
+    console.log(messages);
+	setTimeout(function() {
+		let stage = 2;
+		let autoreqid = document.getElementById("autoreqid");
+		let reqUpdateId = ""; // declare & erase subsequent
+		reqUpdateId  = autoreqid.value; // append
 
-			let superreqid = document.getElementById("superreqid");
-			let supervisorId;  // just declare
-			supervisorId = superreqid.value; // overwrite
-
-			let text = "AUTO APPROVED (Supervisor)";
-			messages.style.display = "none";
-			updateReq(stage, reqUpdateId, supervisorId, text);
-		}, 20000)
-	}
+		let superreqid = document.getElementById("superreqid");
+		let supervisorId;  // just declare
+		supervisorId = superreqid.value; // overwrite
+		 
+		let text = "AUTO APPROVED (Supervisor)";
+		messages.style.display="none";
+     updateReq(stage, reqUpdateId, supervisorId, text);
+	},20000)
+}
 	// ALL MY USER DATA
 	let uId;
 
@@ -174,13 +163,13 @@
 			if (this.readyState == 4 && this.status == 200) {
 				d = JSON.parse(this.responseText);
 				console.log("name: " + d.reqId + " length: " + this.responseText);
-
-
+				
+ 
 				if (d.reqId != null) {
-
+ 
 					let status = statusCase(d.stage);
 					let adjusted = adjustedReq(d.reqAmt, d.reqType);
-
+					
 					document.getElementById("table").innerHTML = `
               		<h4>Details for Request #${d.reqId}</h4>
 				        <tr>
@@ -242,10 +231,12 @@
 			}
 
 		}
-		xhttp.open("GET", "http://localhost:8090/project1/getRequest.do?reqId=" + reqId, true);
+		xhttp.open("GET", "http://localhost:8090/project1/getRequest.do?reqId=" + reqId, true); 
+	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
+	    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 		xhttp.send();
 	}
-
+ 
 	let addTask = function () {
 		let d = document.getElementById("taskId");
 		let taskId = ""; // declare & erase subsequent
@@ -270,7 +261,9 @@
 		xhttp.open("POST", "http://localhost:8090/project1/addTask.do", true);
 
 		xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
+	    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 
 		xhttp.send("taskId=" + taskId + "&currUserId=" + currUserId + "&timeStamp=" + timeStamp);
 		console.log("Great, you sent taskId: #" + taskId + " submitted by: *" + currUserId + " on date: *" + timeStamp);
@@ -278,7 +271,7 @@
 	}
 
 </script>
-<script src="proj1js.js"></script>
+<script src="proj1js.js"></script> 
 
 <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>

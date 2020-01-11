@@ -17,6 +17,13 @@
 		.spinner {
 			display: none;
 		} 
+	  .message-box {
+		display:block !important;
+		background-color:#a2c8a27d;
+		padding:3px;
+		border-radius:3px;
+		border:solid .5px green;
+		}
 	</style>
 </head>
 
@@ -119,7 +126,7 @@
 <script>
 checkRole();
 	// DENY 
-	const denySup = function () {
+	const deny = function () {
 		let showReason = document.getElementById("showReason");
 		updateReason.style.display = "block";
 		showReason.style.display = "block";
@@ -138,7 +145,7 @@ checkRole();
 		let reqUpdateId = document.getElementById("reqById").value;
 		
 		let stage = 3;
-		let supervisorId = getCookie("sessId");
+		let evaluatedBy = getCookie("sessId");
 		let text = updateReason.value;
 		console.log("sendReason: " + text);
  
@@ -155,25 +162,63 @@ checkRole();
 					updateReason.style.display = "none";
 					showReason.style.display = "none";
 					console.log("Finished sending:");
-					updateReq(stage, reqUpdateId, supervisorId, text);
+					updateReq(stage, reqUpdateId, evaluatedBy, text);
 				}, 100);
 			}, 300);
 		}, 600);
 	}
 
 	//APPROVE 
-	const approveSup = function () {
-		let stage = 1;
+	 
+	 
+	const approve = function () {
 		let reqUpdateId = document.getElementById("reqById").value;
-		let text = "Approved By Supervisor"
-		let supervisorId = getCookie("sessId");
-
-		updateReq(stage, reqUpdateId, supervisorId, text);
-
+		let evaluatedBy = getCookie("sessId");
+	 	let stage;
+	 	let text;
+		if ((evaluatedBy <= 4) && (evaluatedBy >= 1)) {
+			text = (evaluatedBy==4)? "BENCO Approved": "Dept. Head Approved";
+			stage = (evaluatedBy==4) ? 7 : 4;
+		
+		} else if (evaluatedBy == 1147 ) {
+		    text = "Supervisor Approved";
+			stage = 1;
+		}
+		updateReq(stage, reqUpdateId, evaluatedBy, text);
 	}
 	// UPDATE REQUEST BY ID  
-	 updateReq = function (stage, reqUpdateId, supervisorId, text) {
-
+	 updateReq = function (stage, reqUpdateId, evaluatedBy, text) {
+		let bencoText = "xx";
+		let dheadText = "xx";
+		let superText = "xx";
+		let reqText = "xx";
+		
+	    switch(evaluatedBy) {
+		    case 4: {
+		    	bencoText= text;
+		    	break;
+		    }
+		    case  3:  {
+		    	dheadText= text;
+		    	break;
+		    }
+		    case  2:  {
+		    	dheadText= text;
+		    	break;
+		    }
+		    case  1: {
+		    	dheadText= text;
+		    	break;
+		    }
+		    case 1147: {
+				superText = text;
+		    	break;
+		    } 
+		    default : {
+		    	reqText = text;
+		    }
+		
+	    }
 		let xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = function () {
@@ -186,11 +231,10 @@ checkRole();
  		xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
 	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
-	    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+	    xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 	    
-		xhttp.send("reqId=" + reqUpdateId + "&stage=" + stage);
-		
-		console.log("xhttp sent: reqId: " + reqUpdateId + "; stage: " + stage);
+		xhttp.send("reqId="+reqUpdateId+"&stage="+stage+"&superText="+superText+"&dheadText="+dheadText+"&bencoText="+bencoText+"&reqText="+reqText);
+		console.log("reqId="+reqUpdateId+"&stage="+stage+"&superText="+superText+"&dheadText="+dheadText+"&bencoText="+bencoText+"&reqText="+reqText);
 
 		document.getElementById("editSpace").innerHTML = "";
 		let spinner = document.getElementById("spinner");
@@ -204,7 +248,7 @@ checkRole();
 	// GET REQUEST BY ID 
 	const getReq = function () {
 		let reqId = document.getElementById("reqById").value;
-		reqId =((reqId!=null) &&(reqId != undefined) && (reqId!=""))? reqId : 100;
+		reqId =((reqId!=null) &&(reqId != undefined) && (reqId!=""))? reqId : 100; // dev safety REMOVE SOOON~!
 		console.log("reqId " + reqId)
 		let xhttp = new XMLHttpRequest();
 
@@ -220,22 +264,28 @@ checkRole();
 					let infoContent = `  
             	<div class="row">
             	<div class="col col-xs-6">
-              		<h6><strong>Request<sup>#${d.reqId}</sup>: </strong>${d.reqName}</h6>
-            	 	<h6><strong>Status: </strong><em><strong>${status}</strong></em></h6> 
-            	    <h6><strong>Submitted: </strong>${d.reqDatetime}</h6> 
-				 	<h6><strong>Location: </strong>${d.reqPlace}</h6> 
-				 	<h6><strong>Grading Type: </strong>${d.reqGradeType}</h6> 
-				 	<h6><strong>Grading Cutoff: </strong>${d.reqGradePass}</h6> 
-			 	</div>
-            	<div class="col col-xs-6"> 
-				 	<h6><strong>Event Type: </strong>${d.reqType}</h6> 
-				 	<h6><strong>Requested Amt: </strong>$${d.reqAmt}</h6> 
-				 	<h6><strong>Adjusted Amt: </strong><em>$${adjusted}</em></h6> 
-                	<h6><strong>Description: </strong>${d.reqDesc}</h6> 
-				 	<h6><strong>Justification: </strong>${d.reqJustify}</h6> 
-				 	 
-				 	<h6><button class="btn-eval btn btn-info" onclick="approveSup()">Approve</button> 
-				 	<button class="btn-eval btn btn-danger" onclick="denySup()">Deny</button></h6>
+         		<h6><strong>Request<sup>#${d.reqId}</sup>: </strong>${d.reqName}</h6>
+        	 	<h6><strong>Status: </strong><em><strong>${status}</strong></em></h6> 
+			 	<h6><strong>Amount: </strong><em>$${adjusted}</em> (<small>orig. </small>$${d.reqAmt})</h6>  
+			 	<div class="message-box">
+				<h6><strong>Messaging Updates</strong></h6>
+        	 	<h6> Super: <em><strong>${d.superText}</strong></em></h6> 
+        	 	<h6> Dept: <em><strong>${d.dheadText}</strong></em></h6> 
+        	 	<h6> Benco: <em><strong>${d.bencoText}</strong></em></h6> 
+        	 	<h6> Requestor: <em><strong>${d.reqText}</strong></em></h6> 
+		 		</div>
+		 	</div>
+        	<div class="col col-xs-6"> 
+			 	<h6><strong>Event Type: </strong>${d.reqType}</h6> 
+         	    <h6><strong>Submitted: </strong>${d.reqDatetime}</h6> 
+			 	<h6><strong>Location: </strong>${d.reqPlace}</h6> 
+			 	<h6><strong>Grading Type: </strong>${d.reqGradeType}</h6> 
+			 	<h6><strong>Grading Cutoff: </strong>${d.reqGradePass}</h6> 
+            	<h6><strong>Description: </strong>${d.reqDesc}</h6> 
+			 	<h6><strong>Justification: </strong>${d.reqJustify}</h6> 
+			 	 
+				 	<h6><button class="btn-eval btn btn-info" onclick="approve()">Approve</button> 
+				 	<button class="btn-eval btn btn-danger" onclick="deny()">Deny</button></h6>
 				 
 			 
 				 	<h6 id="showReason">
@@ -260,6 +310,7 @@ checkRole();
 
 		}
 		xhttp.open("GET", "http://localhost:8090/project1/getRequest.do?reqId=" + reqId, true); 
+		console.log("requesting reqId " + reqId);
 	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
 	    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 		xhttp.send();
@@ -312,7 +363,7 @@ checkRole();
 	    //  xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	    //    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  //Content-Type: application/json
 	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
-	    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+	    xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
     	
 		xhttp.send();
 	}  

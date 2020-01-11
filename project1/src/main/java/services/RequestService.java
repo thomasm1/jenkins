@@ -45,5 +45,8 @@ public class RequestService {
 		System.out.println("Passing ReqService UPDATE...");
 		return reqdao.updateReq(change);
 	}
-	
+//	public static boolean deleteReq(Request change) {
+//		System.out.println("Passing ReqService UPDATE...");
+//		return reqdao.deleteReq(change);
+//	}
 }

@@ -72,9 +72,17 @@ public class  DB {
 //int reqId, int userId, String reqName, String reqType, String reqDesc, String reqJustify,
 //		String reqDatetime, String reqPlace, String gradeType, String gradePass, double reqAmt, int reqStage) {
 
-		Request empRequest1 = new Request(1, 1, "Oracle", "certification", "Java Oracle Pro-1", "Java proficiency", "1-21-20", "Pitt", "numeric", "80%", 349.99, 1);
-		Request empRequest2 = new Request(2, 2, "AWS", "certification", "Assoc Dev", "cloud", "3-20-20", "Morgantown", "numeric", "720", 150.00, 1);
-		Request empRequest3 = new Request(3, 3, "MongoWorld", "conference", "Industry News", "no-sql", "2-20-20", "Dallas", "presentation", "present", 750.00, 1);
+//		Request empRequest1 = new Request(1, 1, "Oracle", "certification", "Java Oracle Pro-1", "Java proficiency", "1-21-20", "Pitt", "numeric", "80%", 349.99, 1);
+//		Request empRequest2 = new Request(2, 2, "AWS", "certification", "Assoc Dev", "cloud", "3-20-20", "Morgantown", "numeric", "720", 150.00, 1);
+//		Request empRequest3 = new Request(3, 3, "MongoWorld", "conference", "Industry News", "no-sql", "2-20-20", "Dallas", "presentation", "present", 750.00, 1);
+//		 
+//		System.out.println(empRequest1);
+//		requests.put(1, empRequest1); 
+//		requests.put(2, empRequest2); 
+//		requests.put(3, empRequest3); 
+		Request empRequest1 = new Request(1, 1, "Oracle", "certification", "Java Oracle Pro-1", "Java proficiency", "1-21-20", "Pitt", "numeric", "80%", 349.99, 1, "superText", "dheadText", "bencoText", "reqText");
+		Request empRequest2 = new Request(2, 2, "AWS", "certification", "Assoc Dev", "cloud", "3-20-20", "Morgantown", "numeric", "720", 150.00, 1, "superText", "dheadText", "bencoText", "reqText");
+		Request empRequest3 = new Request(3, 3, "MongoWorld", "conference", "Industry News", "no-sql", "2-20-20", "Dallas", "presentation", "present", 750.00, 1, "superText", "dheadText", "bencoText", "reqText");
 		 
 		System.out.println(empRequest1);
 		requests.put(1, empRequest1); 

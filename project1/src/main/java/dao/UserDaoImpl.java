@@ -152,23 +152,21 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean deleteUser(String username) {
 //		DB.users.remove(username);
-//		String sql = "DELETE usertable WHERE username = ?";
-//		
-//		try {
-//			PreparedStatement ps = conn.prepareStatement(sql); 
-//			ps.setString(1, u);
-//			
-////			int var = 1;
-////			System.out.println(var);
-////			System.out.println("never delete ... ");
-//			
-//			return true;
-//		} catch (Exception e) {
-//	 System.out.println("doublecheck deletions: \n"+e);
-//		}
-//		return false;
-//		}
-		return false;
+		String sql = "DELETE usertable WHERE username = ?";
+		
+	try {
+		PreparedStatement ps = conn.prepareStatement(sql); 
+		ps.setString(1, username);
+		
+//		int var = 1;
+//		System.out.println(var);
+//		System.out.println("never delete ... ");
+		
+		return true;
+	} catch (Exception e) {
+ System.out.println("doublecheck deletions: \n"+e);
+	}
+	return false;
 	}
 
 }

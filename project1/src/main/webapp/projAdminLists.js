@@ -3,19 +3,17 @@ let checkRole = function() {
 		adminId = getCookie("sessId");
 		let detail = document.getElementById("detail");
 		detail.style.display = "none";
-		if ((adminId==1) |(adminId==2)|(adminId==3)|(adminId==4)  | (adminId==1160)) {
-			
+		
+/// SUPERVISOR
+		if (adminId==1147) {
 			let role = document.getElementById("role");
 			detail.style.display = "block";
 			role.style.display = 'block';
 			let charges= [];
-			let deptCharges = [];
+//			let deptCharges = [];
 			role.innerHTML = ` Supervisor Role for ID's:<br /> `;
 			
-		 
 			for (i=1;i<5;i++) {
-				
-
 				detail.style.display = "block";
 				charges[i] = getCookie("sessOid"+i);
 					role.innerHTML += `${charges[i]} `;
@@ -23,9 +21,40 @@ let checkRole = function() {
 			 
 			for (i=5;i<10;i++) {
 				detail.style.display = "block";
-
 				charges[i] = getCookie("sessOid"+i);
 					role.innerHTML += `${charges[i]}`;
+//				deptCharges[i]  = getCookie("dsessOid"+i);
+//					role.innerHTML += `${deptCharges[i]} `;
+			}
+			
+			console.log("role"+role);
+//			let departmentHead = getCookie("sessId");
+//			role.innerHTML += "<br /><strong>Department Head:</strong> Dept. 40"+departmentHead;
+//			console.log("deptCharges "+deptCharges);
+			console.log("charges "+charges);
+
+			return charges;
+		}
+/// DHEAD
+		if ((adminId==1) |(adminId==2)|(adminId==3)|(adminId==4)) {
+			
+			let role = document.getElementById("role");
+			detail.style.display = "block";
+			role.style.display = 'block';
+//			let charges= [];
+			let deptCharges = [];
+			role.innerHTML = ` Dept Head Role for ID's:<br /> `;
+			
+//			for (i=1;i<5;i++) {
+//				detail.style.display = "block";
+//				charges[i] = getCookie("sessOid"+i);
+//					role.innerHTML += `${charges[i]} `;
+//			}
+			 
+			for (i=5;i<10;i++) {
+				detail.style.display = "block";
+//				charges[i] = getCookie("sessOid"+i);
+//					role.innerHTML += `${charges[i]}`;
 				deptCharges[i]  = getCookie("dsessOid"+i);
 					role.innerHTML += `${deptCharges[i]} `;
 			}
@@ -34,8 +63,11 @@ let checkRole = function() {
 			let departmentHead = getCookie("sessId");
 			role.innerHTML += "<br /><strong>Department Head:</strong> Dept. 40"+departmentHead;
 			console.log("deptCharges "+deptCharges);
-			console.log("charges "+charges);
-			
+//			console.log("charges "+charges);
+
+			return deptCharges;
+		}
+	///BENCO		
 			if ((adminId==4)) {
 				detail.style.display = "block";
 				role.innerHTML += "<br /><strong>BENCO STATUS</strong>";
@@ -44,8 +76,6 @@ let checkRole = function() {
 				let benco2= document.getElementById("benco2");
 				benco2.style.display= "block";
 			}
-			return charges;
-		}
 	}
 
 

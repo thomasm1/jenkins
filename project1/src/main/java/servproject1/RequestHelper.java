@@ -83,7 +83,8 @@ public class RequestHelper {
 			break;
 		} 
 // takes parameter    [ (stage, reqUpdateId, supervisorId, text)] 
-// Collect user's requests (and pending)
+//"reqId="+reqUpdateId+"&stage="+stage+"&superText="+superText+"&dheadText="+dheadText+"&bencoText="+bencoText+"&reqText="+reqText
+		// Collect user's requests (and pending)
 		case "/project1/updateRequest.do": {
 		try {
 			RequestWebService.updateReq(request, response);

@@ -104,7 +104,7 @@ let listTask = function () {
 			}
 		}
 	}
-	xhttp.open("GET", "http://localhost:8090/project1/listTask.do", true);
+	xhttp.open("GET", "listTask.do", true);
 	xhttp.send();
 }
 let listDept = function () {
@@ -130,7 +130,7 @@ let listDept = function () {
 			}
 		}
 	}
-	xhttp.open("GET", "http://localhost:8090/project1/listDept.do", true);
+	xhttp.open("GET", "listDept.do", true);
 	xhttp.send();
 }
 let listUser = function () {
@@ -156,7 +156,7 @@ let listUser = function () {
 			}
 		}
 	}
-	xhttp.open("GET", "http://localhost:8090/project1/listUser.do", true);
+	xhttp.open("GET", "listUser.do", true);
 	xhttp.send();
 }
 

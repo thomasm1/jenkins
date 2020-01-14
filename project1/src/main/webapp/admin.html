@@ -226,7 +226,7 @@ checkRole();
 				console.log("readyState: " + this.readyState + ", status: " + this.status);
 			}
 		}
-		xhttp.open("POST", "http://localhost:8090/project1/updateRequest.do", true);
+		xhttp.open("POST", "updateRequest.do", true);
 		
  		xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
@@ -309,7 +309,7 @@ checkRole();
 			}
 
 		}
-		xhttp.open("GET", "http://localhost:8090/project1/getRequest.do?reqId=" + reqId, true); 
+		xhttp.open("GET", "getRequest.do?reqId=" + reqId, true); 
 		console.log("requesting reqId " + reqId);
 	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
 	    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
@@ -358,7 +358,7 @@ checkRole();
 				}
 			}
 		}
-		xhttp.open("GET", "http://localhost:8090/project1/getTask.do?taskId=" + taskId, true);
+		xhttp.open("GET", "getTask.do?taskId=" + taskId, true);
 		/*  request headers on request object indicate various things such as how the passed data is formatted. */
 	    //  xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	    //    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  //Content-Type: application/json

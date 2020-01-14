@@ -82,7 +82,7 @@ const listRequest = function (atstart, oId) {
 	oId = (oId != 8888) ? oId : getall;  // OTHERS if oID !=8888; GET ALL REQUESTS
 	oId = (oId != 0) ? oId : myId;  //GET OTHERS if oId !=0;  GET myId if 0
 	console.log("collecting request for: " + oId)
-	xhttp.open("GET", "http://localhost:8090/project1/listRequest.do?userId=" + oId, true); 
+	xhttp.open("GET", "listRequest.do?userId=" + oId, true); 
     xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
     //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 	xhttp.send();
@@ -194,8 +194,8 @@ let login = function () {
 			console.log("readyState: " + this.readyState + ", status: " + this.status);
 		}
 	}
-	xhttp.open("POST", "http://localhost:8090/project1/login.do", true);
-	//        xhttp.open("POST", "http://localhost:8090/project1/login2.do", true);
+	xhttp.open("POST", "login.do", true);
+	//        xhttp.open("POST", "login2.do", true);
 
 	xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 

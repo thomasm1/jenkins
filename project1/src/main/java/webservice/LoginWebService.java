@@ -198,6 +198,7 @@ public class LoginWebService {
 			request.setAttribute("mySubsObjs.toString()", mySubsObjs.toString());
 			// COOKIES
 			response.setContentType("text/html");
+			response.getWriter().append("visiting LoginWebServices");
 			Cookie sessUser = new Cookie("sessUser", dbUser);
 			Cookie sessId = new Cookie("sessId", Integer.toString(dbId));
 			Cookie sessSuper = new Cookie("sessSuper", Integer.toString(dbSuper));
@@ -208,12 +209,12 @@ public class LoginWebService {
 			response.addCookie(sessDept);
 			System.out.println("..just made cookies...");
 
-			RequestDispatcher rd = request.getRequestDispatcher("/project1/index.html");
+			RequestDispatcher rd = request.getRequestDispatcher("login.html");
 			rd.forward(request, response);
 
 		} else {
 			System.out.println("failed validation");
-			RequestDispatcher rdd = request.getRequestDispatcher("/project1/login.html");
+			RequestDispatcher rdd = request.getRequestDispatcher("login.html");
 			rdd.forward(request, response);
 			request.setAttribute("errorMessage", "Oops, invalid credentials, typo maybe?");
 		}

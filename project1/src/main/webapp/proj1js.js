@@ -21,10 +21,10 @@ const listRequest = function (atstart, oId) {
 
 			let d = JSON.parse(this.responseText);
 			sessdata = this.responseText;
-			console.log("sessdata--------"); 
-			console.log(sessdata);  
-			console.log("d-------------");   
-			console.log(d); 
+			console.log("sessdata--------");
+			console.log(sessdata);
+			console.log("d-------------");
+			console.log(d);
 			if (atstart == true) {
 				document.getElementById("table").innerHTML = ""
 			}; //erase empty list
@@ -37,9 +37,9 @@ const listRequest = function (atstart, oId) {
 				for (i = 0; i < d.length; i++) {
 					let status = statusCase(d[i].stage);
 					let adjusted = adjustedReq(d[i].reqAmt, d[i].reqType);
-					
+
 					//myBalance(d[i].reqAmt);
-					
+
 					document.getElementById("table").innerHTML += `
 	        <tr>
 			            <td><strong>#${d[i].reqId}</strong>&nbsp;   &nbsp; Request:</td>
@@ -71,8 +71,8 @@ const listRequest = function (atstart, oId) {
 				     
 		        	
 				        <hr>				      
-				`;  
-					
+				`;
+
 				}
 			}
 		}
@@ -82,9 +82,9 @@ const listRequest = function (atstart, oId) {
 	oId = (oId != 8888) ? oId : getall;  // OTHERS if oID !=8888; GET ALL REQUESTS
 	oId = (oId != 0) ? oId : myId;  //GET OTHERS if oId !=0;  GET myId if 0
 	console.log("collecting request for: " + oId)
-	xhttp.open("GET", "listRequest.do?userId=" + oId, true); 
-    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
-    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+	xhttp.open("GET", "listRequest.do?userId=" + oId, true);
+	xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
+	xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 	xhttp.send();
 
 }
@@ -150,38 +150,38 @@ const sessionInfo = function () {
 	let userdept = getCookie("userdept");
 	let deptid = document.getElementById("userDept");
 	deptid.innerHTML = ` ${userdept}`;
- 
+
 }
 
- 
+
 let username;  // just declare
 
-let adminEntry = function() {
+let adminEntry = function () {
 	let sessUser = 'Cyndi'; //getCookie("sessUser");
 	let sessId = 4; //getCookie("sessId");
 	let sessSuper = 52; //getCookie("sessSuper");
 	let sessDept = 404; //getCookie("sessDept");
-	 
-		console.log("sessDept: " + sessDept + ",sessUser:" + sessUser + " logged in as admin");
-		killCookie("username");
-		document.cookie = `username=${sessUser}`;
-		document.cookie = `sessUser=${sessUser}`;
-		killCookie("userid");
-		document.cookie = `userid=${sessId}`;
-		document.cookie = `sessId=${sessId}`;
-		killCookie("usersuper");
-		document.cookie = `usersuper=${sessSuper}`;
-		document.cookie = `sessSuper=${sessSuper}`;
-		killCookie("userdept");
-		document.cookie = `userdept=${sessDept}`;
-		document.cookie = `sessDept=${sessDept}`;
-		window.location.href = "/project1/index.html"; 
+
+	console.log("sessDept: " + sessDept + ",sessUser:" + sessUser + " logged in as admin");
+	killCookie("username");
+	document.cookie = `username=${sessUser}`;
+	document.cookie = `sessUser=${sessUser}`;
+	killCookie("userid");
+	document.cookie = `userid=${sessId}`;
+	document.cookie = `sessId=${sessId}`;
+	killCookie("usersuper");
+	document.cookie = `usersuper=${sessSuper}`;
+	document.cookie = `sessSuper=${sessSuper}`;
+	killCookie("userdept");
+	document.cookie = `userdept=${sessDept}`;
+	document.cookie = `sessDept=${sessDept}`;
+	window.location.href = "index.html";
 }
 
 let login = function () {
 
 	let u = document.getElementById("username");
-	username = u.value; // overwrite
+	let username = u.value; // overwrite
 
 	let p = document.getElementById("password");
 	let password;
@@ -194,17 +194,19 @@ let login = function () {
 			console.log("readyState: " + this.readyState + ", status: " + this.status);
 		}
 	}
-	xhttp.open("POST", "login.do", true);
+	xhttp.open("GET", "login.do?username=" + username + "&password=" + password, true);
 	//        xhttp.open("POST", "login2.do", true);
 
 	xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
-    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
-    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+	//	xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
+	xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 
-	xhttp.send("username=" + username + "&password=" + password);
+	xhttp.send();
 	console.log(" submitted by: *" + username + ", password *" + password);
+
 	redirect(username);
+
 
 }
 //  LOGOUT
@@ -227,9 +229,9 @@ let logout = function () {
 	sessDept = "";
 	sessdata = "";
 	dListReq = null;
-//	for (let i=0; i<arr.length;i++) {
-//		
-//	}
+	//	for (let i=0; i<arr.length;i++) {
+	//		
+	//	}
 }
 
 //GLOBS
@@ -239,15 +241,15 @@ let sesso = new Object;
 // VALIDATION
 let redirect = function (u) {
 	sesso = {
-			sessUser: getCookie("sessUser"),
-			sessId: getCookie("sessId"),
-			sessSuper: getCookie("sessSuper"),
-			sessDept: getCookie("sessDept"),
-			
-			sessUser: this.sessUser,
-			sessId: this.sessId,
-			sessSuper: this.sessSuper,
-			sessDept: this.sessDept,
+		sessUser: getCookie("sessUser"),
+		sessId: getCookie("sessId"),
+		sessSuper: getCookie("sessSuper"),
+		sessDept: getCookie("sessDept"),
+
+		sessUser: this.sessUser,
+		sessId: this.sessId,
+		sessSuper: this.sessSuper,
+		sessDept: this.sessDept,
 	}
 
 	let sessUser = getCookie("sessUser");
@@ -257,30 +259,30 @@ let redirect = function (u) {
 
 	let spinner = document.getElementById("spinner");
 	spinner.style.display = "block";
-	
+
 	certifiedUser = getCookie("sessUser")
 	setTimeout(function () {
 
-	if ((u == getCookie("sessUser")) || (u == certifiedUser)) {
+		if ((u == getCookie("sessUser")) || (u == certifiedUser)) {
 
-		console.log("sessDept: " + sessDept + ",sessUser:" + sessUser + " logged in as " + u);
-		killCookie("username");
-		document.cookie = `username=${u}`;
-		killCookie("userid");
-		document.cookie = `userid=${sessId}`;
-		killCookie("usersuper");
-		document.cookie = `usersuper=${sessSuper}`;
-		killCookie("userdept");
-		document.cookie = `userdept=${sessDept}`;
-		window.location.href = "/project1/index.html";
-	} else {
-		alert("please try again! you entered " + u+" and not found!");
-		window.location.href = "/project1/login.html";
-	}
-	spinner.style.display = "none";
+			console.log("sessDept: " + sessDept + ",sessUser:" + sessUser + " logged in as " + u);
+			killCookie("username");
+			document.cookie = `username=${u}`;
+			killCookie("userid");
+			document.cookie = `userid=${sessId}`;
+			killCookie("usersuper");
+			document.cookie = `usersuper=${sessSuper}`;
+			killCookie("userdept");
+			document.cookie = `userdept=${sessDept}`;
+			window.location.href = "index.html";
+		} else {
+			alert("please try again! you entered " + u + " and not found!");
+			window.location.href = "login.html";
+		}
+		spinner.style.display = "none";
 
 	}, 2000);
-	}
+}
 
 
 /////// KILL COOKIES
@@ -309,101 +311,101 @@ let getCookie = function (cname) {
 
 ///  REQUEST ADJUSTMENTS
 const adjustedReq = function (reqAmt, reqType) {
-let adjusted;
-switch (reqType) {
-	case "course":
-		adjusted = reqAmt * .8;
-		  // Awaiting Supervisor
-		  break;
-	case "seminar":
-		adjusted =  reqAmt * .6;
-	  // Awaiting Supervisor
-	  break;
-	case "certprep":
-		adjusted =  reqAmt * .75;
-	  // Awaiting 
-	  break;
-	case "cert" :
-		adjusted =  reqAmt;
-	   // Awaiting 
-	  break;
-	case "techtrain":
-		adjusted =  reqAmt * .9;
-	  //   ---->send reason to requestor
-	  break; 
-	case "other":
-		adjusted =  reqAmt * .3;
-	  // Awaiting 
-	  break
-	 
-	default :
-		adjusted = "not adjusted";
-		break;
+	let adjusted;
+	switch (reqType) {
+		case "course":
+			adjusted = reqAmt * .8;
+			// Awaiting Supervisor
+			break;
+		case "seminar":
+			adjusted = reqAmt * .6;
+			// Awaiting Supervisor
+			break;
+		case "certprep":
+			adjusted = reqAmt * .75;
+			// Awaiting 
+			break;
+		case "cert":
+			adjusted = reqAmt;
+			// Awaiting 
+			break;
+		case "techtrain":
+			adjusted = reqAmt * .9;
+			//   ---->send reason to requestor
+			break;
+		case "other":
+			adjusted = reqAmt * .3;
+			// Awaiting 
+			break
+
+		default:
+			adjusted = "not adjusted";
+			break;
 	}
 	let adjustedAmt = adjusted;
 	return adjustedAmt;
-} 
+}
 
 
 ////    STATUS CASE
 const statusCase = function (code) {
-let stage;
+	let stage;
 	switch (code) {
-	case 0:
-		  stage = "Request Submitted; <br />Awaiting Supervisor";
-		  // Awaiting Supervisor
-		  break;
-	case 99:
-	  stage = "Request Submitted";
-	  // Awaiting Supervisor
-	  break;
-	case 1:
-	  stage = "Approved by Supervisor";
-	  // Awaiting 
-	  break;
-	case 2:
-	   stage = "Auto-Approved (Supervisor)";
-	   // Awaiting 
-	  break;
-	case 3:
-	  stage = "Denied by Supervisor";
-	  //   ---->send reason to requestor
-	  break;
-	case 4:
-	  stage = "Approved by Dept. Head;<br />Awaiting Benco";
-	  // Awaiting 
-	  break;
-	case 5:
-	  stage = "Pending Doc Request (Dept.)";
-	  // Awaiting --->need docs from requestor
-	  break;
-	case 6:
-	  stage = "Denied by Dept. Head";
-	  // Awaiting 
-	  break
-	case 7:
-		 stage = "Pending Doc Request (Dept.)";
-		  //
-		  break;
-	case 8:
-		 stage = "Approved, Request amount increased";
-		  //--->reason for exceeding available
-		  break;
-	case 9:
-		 stage = "Approved, amount lowered (pending requestor)";
-		 // -->need final approve from requestor
-		  break;
-	case 10:
-		 stage = "Awaiting Benco (Timeout alert sent to Supervisor)";
-		  //    ---> letter to supervisor
-		  break;
-    case 11:
-		  stage = "Denied by Benco  ";
-		  // 
-		  break;
-	default :
-		stage ="Status not found!";
-		break;
+		case 0:
+			stage = "Request Submitted; <br />Awaiting Supervisor";
+			// Awaiting Supervisor
+			break;
+		case 99:
+			stage = "Request Submitted";
+			// Awaiting Supervisor
+			break;
+		case 1:
+			stage = "Approved by Supervisor";
+			// Awaiting 
+			break;
+		case 2:
+			stage = "Auto-Approved (Supervisor)";
+			// Awaiting 
+			break;
+		case 3:
+			stage = "Denied by Supervisor";
+			//   ---->send reason to requestor
+			break;
+		case 4:
+			stage = "Approved by Dept. Head;<br />Awaiting Benco";
+			// Awaiting 
+			break;
+		case 5:
+			stage = "Pending Doc Request (Dept.)";
+			// Awaiting --->need docs from requestor
+			break;
+		case 6:
+			stage = "Denied by Dept. Head";
+			// Awaiting 
+			break
+		case 7:
+			stage = "Pending Doc Request (Dept.)";
+			//
+			break;
+		case 8:
+			stage = "Approved, Request amount increased";
+			//--->reason for exceeding available
+			break;
+		case 9:
+			stage = "Approved, amount lowered (pending requestor)";
+			// -->need final approve from requestor
+			break;
+		case 10:
+			stage = "Awaiting Benco (Timeout alert sent to Supervisor)";
+			//    ---> letter to supervisor
+			break;
+		case 11:
+			stage = "Denied by Benco  ";
+			// 
+			break;
+		default:
+			stage = "Status not found!";
+			break;
 	}
 	let status = stage;
 	return status;

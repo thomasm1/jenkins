@@ -8,46 +8,33 @@
 	<link href="proj1style.css" rel="stylesheet" />
 	<link href="projAdmin.css" rel="stylesheet" />
 	<style>
-		footer.footer {
-			width: 100%;
-			position: absolute;
-			bottom: 0;
-		}
-
 		.spinner {
 			display: none;
-		} 
-	  .message-box {
-		display:block !important;
-		background-color:#a2c8a27d;
-		padding:3px;
-		border-radius:3px;
-		border:solid .5px green;
 		}
 	</style>
 </head>
 
 <body onload="sessionInfo();listRequestArray([1,2,3,4])">
 	<nav class="navbar navbar-default">
-	 
-		<ul class="nav navbar-nav ">
-			 	 
-				<span id="role"></span>
-				
-				</li>
-	
-		
-			<li><a href="/project1/index.html">REQUESTS</a></li>
-			<li class="active"><a href="/project1/admin.html">ADMIN</a></li>
+		<ul class="nav navbar-nav userdata-mid ">
+			<li id="left-header">
+				<span id="role">
+					<h3><strong><em>TRMS</em></strong></h3>
+				</span>
+				<span id="bal"></span>
+			</li>
+
+			<li><a href="index.html">REQUESTS</a></li>
+			<li class="active"><a href="admin.html">STATUS</a></li>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right userdata">
-			<li class="user navright">
+			<li class="user  ">
 				<div class="">
-					<a href="/project1/request.html" class="pull-left">
+					<a href="request.html" class="pull-left">
 						<button class="btn btn-primary logout ">&nbsp;&nbsp;Reimburse
 							Me&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;</a>
-					<a onclick="logout()" href="/project1/login.html" class="pull-right">
+					<a onclick="logout()" href="login.html" class="pull-right">
 						<button class="btn btn-default logout">&nbsp;&nbsp;Sign Out&nbsp;&nbsp;</button>&nbsp;&nbsp;
 					</a>
 				</div>
@@ -61,7 +48,7 @@
 			</li>
 		</ul>
 		<span class="header-title">
-			<h3>ADMIN PORTAL</h3>
+			<h3>STATUS</h3>
 		</span>
 	</nav>
 	<div class="container">
@@ -84,22 +71,22 @@
 					<button class="t btn btn-primary" onclick="listTask()">Get
 						Team's Tasks</button>
 				</div>
-	
-				
+
+
 			</div>
-				<div> <button class="pull-left"  id="benco1" onclick="listRequest(true, 8888)"> BENCO Show All</button>
-		 <button id="benco2" class="pull-left" onclick="listDept()"> BENCO Show Depts</button> 
-		 </div>
+			<div> <button class="pull-left" id="benco1" onclick="listRequest(true, 8888)"> BENCO Show All</button>
+				<button id="benco2" class="pull-left" onclick="listDept()"> BENCO Show Depts</button>
+			</div>
 			<div class=" col col-xs-9">
 				<div id="spinner"></div>
 				<div id="editSpace">
-				
+
 				</div>
 			</div>
 		</div>
 
 		<h3 class="detail">My Teams' Reimbursement Requests </h3>
-	
+
 		<div class="table  ">
 			<table id="table">
 
@@ -112,19 +99,19 @@
 			<p>
 				Requests 1 - Revature<br /> <small>Copyright &copy;
 					2020 &nbsp;
-				 <button onclick="listRequest(true, 8888)">Show Requests</button>
+					<button onclick="listRequest(true, 8888)">Show Requests</button>
 					<button onclick="listDept()">Show Depts</button></small>
 			</p>
 		</div>
 	</footer>
 	<div id="benco1"></div>
 	<div id="benco2"></div>
-	
+
 </body>
 <script src="proj1js.js"></script>
 <script src="projAdminLists.js"></script>
 <script>
-checkRole();
+	checkRole();
 	// DENY 
 	const deny = function () {
 		let showReason = document.getElementById("showReason");
@@ -143,12 +130,12 @@ checkRole();
 		let updateReason = document.getElementById("updateReason");
 		let msg = document.getElementById("msg");
 		let reqUpdateId = document.getElementById("reqById").value;
-		
+
 		let stage = 3;
 		let evaluatedBy = getCookie("sessId");
 		let text = updateReason.value;
 		console.log("sendReason: " + text);
- 
+
 		updateReason.style.backgroundColor = "lightgray";
 		msg.innerHTML = "<p>Sending Evaluation ...<br /></p>";
 
@@ -169,56 +156,56 @@ checkRole();
 	}
 
 	//APPROVE 
-	 
-	 
+
+
 	const approve = function () {
 		let reqUpdateId = document.getElementById("reqById").value;
 		let evaluatedBy = getCookie("sessId");
-	 	let stage;
-	 	let text;
+		let stage;
+		let text;
 		if ((evaluatedBy <= 4) && (evaluatedBy >= 1)) {
-			text = (evaluatedBy==4)? "BENCO Approved": "Dept. Head Approved";
-			stage = (evaluatedBy==4) ? 7 : 4;
-		
-		} else if (evaluatedBy == 1147 ) {
-		    text = "Supervisor Approved";
+			text = (evaluatedBy == 4) ? "BENCO Approved" : "Dept. Head Approved";
+			stage = (evaluatedBy == 4) ? 7 : 4;
+
+		} else if (evaluatedBy == 1147) {
+			text = "Supervisor Approved";
 			stage = 1;
 		}
 		updateReq(stage, reqUpdateId, evaluatedBy, text);
 	}
 	// UPDATE REQUEST BY ID  
-	 updateReq = function (stage, reqUpdateId, evaluatedBy, text) {
+	updateReq = function (stage, reqUpdateId, evaluatedBy, text) {
 		let bencoText = "xx";
 		let dheadText = "xx";
 		let superText = "xx";
 		let reqText = "xx";
-		
-	    switch(evaluatedBy) {
-		    case 4: {
-		    	bencoText= text;
-		    	break;
-		    }
-		    case  3:  {
-		    	dheadText= text;
-		    	break;
-		    }
-		    case  2:  {
-		    	dheadText= text;
-		    	break;
-		    }
-		    case  1: {
-		    	dheadText= text;
-		    	break;
-		    }
-		    case 1147: {
+
+		switch (evaluatedBy) {
+			case 4: {
+				bencoText = text;
+				break;
+			}
+			case 3: {
+				dheadText = text;
+				break;
+			}
+			case 2: {
+				dheadText = text;
+				break;
+			}
+			case 1: {
+				dheadText = text;
+				break;
+			}
+			case 1147: {
 				superText = text;
-		    	break;
-		    } 
-		    default : {
-		    	reqText = text;
-		    }
-		
-	    }
+				break;
+			}
+			default: {
+				reqText = text;
+			}
+
+		}
 		let xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = function () {
@@ -227,14 +214,14 @@ checkRole();
 			}
 		}
 		xhttp.open("POST", "updateRequest.do", true);
-		
- 		xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
-	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
-	    xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
-	    
-		xhttp.send("reqId="+reqUpdateId+"&stage="+stage+"&superText="+superText+"&dheadText="+dheadText+"&bencoText="+bencoText+"&reqText="+reqText);
-		console.log("reqId="+reqUpdateId+"&stage="+stage+"&superText="+superText+"&dheadText="+dheadText+"&bencoText="+bencoText+"&reqText="+reqText);
+
+		xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
+		xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+
+		xhttp.send("reqId=" + reqUpdateId + "&stage=" + stage + "&superText=" + superText + "&dheadText=" + dheadText + "&bencoText=" + bencoText + "&reqText=" + reqText);
+		console.log("reqId=" + reqUpdateId + "&stage=" + stage + "&superText=" + superText + "&dheadText=" + dheadText + "&bencoText=" + bencoText + "&reqText=" + reqText);
 
 		document.getElementById("editSpace").innerHTML = "";
 		let spinner = document.getElementById("spinner");
@@ -248,7 +235,7 @@ checkRole();
 	// GET REQUEST BY ID 
 	const getReq = function () {
 		let reqId = document.getElementById("reqById").value;
-		reqId =((reqId!=null) &&(reqId != undefined) && (reqId!=""))? reqId : 100; // dev safety REMOVE SOOON~!
+		reqId = ((reqId != null) && (reqId != undefined) && (reqId != "")) ? reqId : 100; // dev safety REMOVE SOOON~!
 		console.log("reqId " + reqId)
 		let xhttp = new XMLHttpRequest();
 
@@ -256,7 +243,7 @@ checkRole();
 			if (this.readyState == 4 && this.status == 200) {
 				let d = JSON.parse(this.responseText);
 				console.log("name: " + d.currUserId + " length: " + this.responseText);
-				
+
 				let status = statusCase(d.stage);
 				let adjusted = adjustedReq(d.reqAmt, d.reqType);
 
@@ -268,11 +255,11 @@ checkRole();
         	 	<h6><strong>Status: </strong><em><strong>${status}</strong></em></h6> 
 			 	<h6><strong>Amount: </strong><em>$${adjusted}</em> (<small>orig. </small>$${d.reqAmt})</h6>  
 			 	<div class="message-box">
-				<h6><strong>Messaging Updates</strong></h6>
-        	 	<h6> Super: <em><strong>${d.superText}</strong></em></h6> 
-        	 	<h6> Dept: <em><strong>${d.dheadText}</strong></em></h6> 
-        	 	<h6> Benco: <em><strong>${d.bencoText}</strong></em></h6> 
-        	 	<h6> Requestor: <em><strong>${d.reqText}</strong></em></h6> 
+				<h6 class="msg-title"><strong>Messaging Updates</strong></h6>
+        	 	<h6> <em><strong>Super: </strong></em>${d.superText}</h6> 
+        	 	<h6> <em><strong>Dept: </strong></em>${d.dheadText}</h6> 
+        	 	<h6> <em><strong>Benco: </strong></em>${d.bencoText}</h6> 
+        	 	<h6> <em><strong>Notes: </strong></em>${d.reqText}</h6> 
 		 		</div>
 		 	</div>
         	<div class="col col-xs-6"> 
@@ -309,17 +296,17 @@ checkRole();
 			}
 
 		}
-		xhttp.open("GET", "getRequest.do?reqId=" + reqId, true); 
+		xhttp.open("GET", "getRequest.do?reqId=" + reqId, true);
 		console.log("requesting reqId " + reqId);
-	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
-	    //   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+		xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
+		//   xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 		xhttp.send();
 	}
 
 	// GET BY TASK
 	const getTask = function () {
 		let taskId = document.getElementById("taskById").value;
-		taskId =((taskId!=null) &&(taskId != undefined) && (taskId!=""))? taskId : 1000;
+		taskId = ((taskId != null) && (taskId != undefined) && (taskId != "")) ? taskId : 1000;
 		console.log("taskId " + taskId)
 		let xhttp = new XMLHttpRequest();
 
@@ -360,11 +347,11 @@ checkRole();
 		}
 		xhttp.open("GET", "getTask.do?taskId=" + taskId, true);
 		/*  request headers on request object indicate various things such as how the passed data is formatted. */
-	    //  xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	    //    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  //Content-Type: application/json
-	    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
-	    xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
-    	
+		//  xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		//    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  //Content-Type: application/json
+		xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
+		xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+
 		xhttp.send();
 	}  
 </script>

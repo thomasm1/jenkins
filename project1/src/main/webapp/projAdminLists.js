@@ -1,82 +1,67 @@
-let checkRole = function() {
-		 
-		adminId = getCookie("sessId");
-		let detail = document.getElementById("detail");
-		detail.style.display = "none";
-		
-/// SUPERVISOR
-		if (adminId==1147) {
-			let role = document.getElementById("role");
-			detail.style.display = "block";
-			role.style.display = 'block';
-			let charges= [];
-//			let deptCharges = [];
-			role.innerHTML = ` Supervisor Role for ID's:<br /> `;
-			
-			for (i=1;i<5;i++) {
-				detail.style.display = "block";
-				charges[i] = getCookie("sessOid"+i);
-					role.innerHTML += `${charges[i]} `;
-			}
-			 
-			for (i=5;i<10;i++) {
-				detail.style.display = "block";
-				charges[i] = getCookie("sessOid"+i);
-					role.innerHTML += `${charges[i]}`;
-//				deptCharges[i]  = getCookie("dsessOid"+i);
-//					role.innerHTML += `${deptCharges[i]} `;
-			}
-			
-			console.log("role"+role);
-//			let departmentHead = getCookie("sessId");
-//			role.innerHTML += "<br /><strong>Department Head:</strong> Dept. 40"+departmentHead;
-//			console.log("deptCharges "+deptCharges);
-			console.log("charges "+charges);
+let checkRole = function () {
 
-			return charges;
-		}
-/// DHEAD
-		if ((adminId==1) |(adminId==2)|(adminId==3)|(adminId==4)) {
-			
-			let role = document.getElementById("role");
-			detail.style.display = "block";
-			role.style.display = 'block';
-//			let charges= [];
-			let deptCharges = [];
-			role.innerHTML = ` Dept Head Role for ID's:<br /> `;
-			
-//			for (i=1;i<5;i++) {
-//				detail.style.display = "block";
-//				charges[i] = getCookie("sessOid"+i);
-//					role.innerHTML += `${charges[i]} `;
-//			}
-			 
-			for (i=5;i<10;i++) {
-				detail.style.display = "block";
-//				charges[i] = getCookie("sessOid"+i);
-//					role.innerHTML += `${charges[i]}`;
-				deptCharges[i]  = getCookie("dsessOid"+i);
-					role.innerHTML += `${deptCharges[i]} `;
-			}
-			
-			console.log("role"+role);
-			let departmentHead = getCookie("sessId");
-			role.innerHTML += "<br /><strong>Department Head:</strong> Dept. 40"+departmentHead;
-			console.log("deptCharges "+deptCharges);
-//			console.log("charges "+charges);
+	adminId = getCookie("sessId");
+	let detail = document.getElementById("detail");
+	detail.style.display = "none";
 
-			return deptCharges;
+	/// SUPERVISOR
+	if (adminId == 1147) {
+		let role = document.getElementById("role");
+		detail.style.display = "block";
+		role.style.display = 'block';
+		let charges = [];
+		role.innerHTML = ` Supervisor Role for ID's:<br /> `;
+
+		for (i = 1; i < 5; i++) {
+			detail.style.display = "block";
+			charges[i] = getCookie("sessOid" + i);
+			role.innerHTML += `${charges[i]} `;
 		}
-	///BENCO		
-			if ((adminId==4)) {
-				detail.style.display = "block";
-				role.innerHTML += "<br /><strong>BENCO STATUS</strong>";
-				let benco1= document.getElementById("benco1");
-				benco1.style.display= "block";
-				let benco2= document.getElementById("benco2");
-				benco2.style.display= "block";
-			}
+
+		for (i = 5; i < 10; i++) {
+			detail.style.display = "block";
+			charges[i] = getCookie("sessOid" + i);
+			role.innerHTML += `${charges[i]}`;
+		}
+
+		console.log("role" + role);
+		console.log("charges " + charges);
+
+		return charges;
 	}
+	/// DHEAD
+	if ((adminId == 1) | (adminId == 2) | (adminId == 3) | (adminId == 4)) {
+
+		let role = document.getElementById("role");
+		detail.style.display = "block";
+		role.style.display = 'block';
+		let deptCharges = [];
+		role.innerHTML = ` Dept Head Role for ID's:<br /> `;
+
+		for (i = 5; i < 10; i++) {
+			detail.style.display = "block";
+			deptCharges[i] = getCookie("dsessOid" + i);
+			role.innerHTML += `${deptCharges[i]} `;
+		}
+
+		console.log("role" + role);
+		let departmentHead = getCookie("sessId");
+		role.innerHTML += "<br /><strong>Department Head:</strong>40" + departmentHead;
+		console.log("deptCharges " + deptCharges);
+		return deptCharges;
+	}
+	///BENCO		
+	if ((adminId == 4)) {
+		detail.style.display = "block";
+		role.style.display = 'block';
+		role.innerHTML += "<br /><strong>BENCO STATUS</strong>";
+		console.log("benco")
+		let benco1 = document.getElementById("benco1");
+		benco1.style.display = "block";
+		let benco2 = document.getElementById("benco2");
+		benco2.style.display = "block";
+	}
+}
 
 
 
@@ -160,10 +145,9 @@ let listUser = function () {
 	xhttp.send();
 }
 
- 
-let listRequestArray = function (arr) {
-//	listRequest(true, 9999);
-	document.getElementById("table").innerHTML ="";
+
+let listRequestArray = function (arr) { 
+	document.getElementById("table").innerHTML = "";
 	for (i = 0; i < arr.length; i++) {
 		listRequest(false, arr[i]);
 	}

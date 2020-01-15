@@ -14,16 +14,17 @@
             position: absolute;
             bottom: 0;
         }
+
         .navright {
-        transform:translateX(-25px);
+            transform: translateX(-25px);
         }
     </style>
     <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
     <link href="proj1style.css" rel="stylesheet" />
     <link href="/favicon.ico" rel="shortcut favicon" />
-    <link href="/project1/favicon.ico" rel="shortcut favicon" />
+    <link href="favicon.ico" rel="shortcut favicon" />
     <link href="favicon.ico" rel="shortcut favicon" type="text/html" />
-    <!-- /project1/src/main/webapp/favicon.ico
+    <!-- /src/main/webapp/favicon.ico
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
    -->
@@ -41,7 +42,7 @@
         <ul class="nav navbar-nav navbar-right userdata">
             <li class=" navright  ">
                 <br />
-                <button class="btn btn-primary logout pull-right"><a href="/project1/login.html">SIGN IN</a></button>
+                <button class="btn btn-primary logout pull-right"><a href="login.html">SIGN IN</a></button>
                 <br />
                 <p class="pull-right">Already signed up?</p>
             </li>
@@ -118,7 +119,7 @@
         xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhttp.send("deptId=" + deptId + "&superId=" + superId + "&userName=" + userName + "&password=" + password + "&email=" + email);
         console.log("Great, submitted; your deptId: #" + deptId + ", super ID: " + superId + " submitted by: *" + userName + " pw: *" + password + ", email: " + email);
-        window.location.href = "/project1/login.html";
+        window.location.href = "login.html";
 
     }  
 </script>

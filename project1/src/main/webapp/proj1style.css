@@ -100,11 +100,14 @@ nav {
 
 
 /*               classes                           */
-
+/*navbar font */
+navbar-default .navbar-nav>li>a {
+	color:#161212 !important;
+}
 nav.navbar {
     padding-left: 2%;
     padding-top: 2%;
-    background-color: #8aacb8ed;
+    background-color: #6492a3ed;
 }
 
 .navbar {
@@ -163,7 +166,7 @@ button.btn-info a {
 
 .register {
     padding: 4px 10px;
-    background-color: #8aacb8ed;
+    background-color: #6492a3ed;
     margin: 10px;
 }
 

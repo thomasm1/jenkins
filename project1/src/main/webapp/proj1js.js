@@ -221,7 +221,9 @@ let logout = function () {
 	killCookie("sessSuper");
 	killCookie("sessDept");
 	killCookie("sessdata");
-	killCookie("sessOid");
+
+	killCookiePattern("sessOid"); // kill subs
+	killCookiePattern("dsessOid"); // kill depts
 	sessUser = "";
 	sessUser = "";
 	sessId = "";
@@ -290,6 +292,26 @@ let killCookie = function (cname) {
 
 	document.cookie = cname +
 		'=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+}
+
+/////// KILL COOKIES 2 ( matching pattern...)
+//DESTROY ALL COOKIS MATCHING PATTERN >>>> myCookieName1, myCookieName2
+// Get an array of cookies
+let killCookiePattern = function (c_pattern) {
+	var arrSplit = document.cookie.split(";");
+
+	for(var i = 0; i < arrSplit.length; i++)
+	{
+	    var cookie = arrSplit[i].trim();
+	    var cookieName = cookie.split("=")[0];
+
+	    // If the prefix of the cookie's name matches the one specified, remove it
+	    if(cookieName.indexOf(c_pattern) === 0) {
+
+	        // Remove the cookie
+	        document.cookie = cookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+	    }
+	} 
 }
 
 /////// GET COOKIES

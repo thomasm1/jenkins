@@ -88,35 +88,28 @@ public class LoginWebService {
 				for (User s : allSuperIds) { // I am listed as a super by these users...
 					if (s.getSuperId() == userLogged.getUserId()) {
 						isSuper = true;
-						System.out.println("..oh, this user *IS* verified as a Supervisor.");
-
-						System.out.println("======is Super: " + isSuper + "==========");
-						// Check if sub's super matches my ID:
-						System.out.println("superId: " + s.getSuperId() + ", logged-in Id: " + userLogged.getUserId());
-						// XX- gets overwrritten GET contact info of sub:
-//						System.out.println("sub's id: "+s.getUserId()+"; sub's dept"+s.getDeptId()+"; his/her email"+s.getEmail());
-					}
-					// GET contact info of sub:
-					System.out.println("LOOPING, after if: sub's id: " + s.getUserId() + "sub's dept" + s.getDeptId()
-							+ ", his/her email" + s.getEmail());
-					// GET all Requests for .getSuperId
-//					Set<String> mySubHash = new LinkedHashSet<String>();
-					mySubsIds.add(s.getUserId()); // WORKS!!!
-					mySubsObjs.add(s);
+						System.out.println( s.getSuperId() +"==== *IS* verified as a Supervisor: " + isSuper + "==========");
+						// GET contact info of sub:
+						System.out.println("LOOPING, after if: #Sub's id: " + s.getUserId() + ", #sub's name:" + s.getUserName()
+								+ ", his/her email: " + s.getEmail()); 
+						mySubsIds.add(s.getUserId()); // WORKS!!!==>>> SEND OUT 
+						mySubsObjs.add(s);
+					} 
 				}
+				
 				System.out.println("list of my mySubs: " + mySubsIds);
-// COLLECT MY SUBS
+// MAKE COOKIE *IS SUPERVISOR 
+				Cookie isSuperCookie = new Cookie("isSuper", isSuper.toString());
+				response.addCookie(isSuperCookie);
+// COLLECT MY SUBORDINATES, PUT IN COOKIE
 				System.out.println("list of my mySubs objs: " + mySubsObjs);
 				int i = 0;
 				for (User m : mySubsObjs) {
 					Integer mySubId = m.getUserId();
-					Cookie SubId = new Cookie("sessOid", Integer.toString(mySubId));
+					Cookie SubId = new Cookie("sessOid" + i, Integer.toString(mySubId));
 					response.addCookie(SubId);
 					i++;
 				}
-
-//				Request d = RequestService.getReq(id);
-				System.out.println(mySubsObjs);
 
 				ObjectMapper om = new ObjectMapper();
 				if (mySubsObjs != null) {

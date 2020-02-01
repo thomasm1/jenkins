@@ -1,34 +1,28 @@
 let checkRole = function () {
-
-	adminId = getCookie("sessId");
+	let isSuper = getCookie("isSuper");
 	let detail = document.getElementById("detail");
 	detail.style.display = "none";
 
 	/// SUPERVISOR
-	if (adminId == 1147) {
+	console.log("is Super: "+ isSuper)
+	if (isSuper == "true") {
 		let role = document.getElementById("role");
 		detail.style.display = "block";
 		role.style.display = 'block';
 		let charges = [];
-		role.innerHTML = ` Supervisor Role for ID's:<br /> `;
-
-		for (i = 1; i < 5; i++) {
-			detail.style.display = "block";
+		role.innerHTML = `*Supervisor Role<br />ID's:<br /> `;
+		
+//		addSubordinates(); 
+		for (i = 0; i < 20; i++) {   // FIX THIS fixed ... TODO
 			charges[i] = getCookie("sessOid" + i);
-			role.innerHTML += `${charges[i]} `;
-		}
-
-		for (i = 5; i < 10; i++) {
-			detail.style.display = "block";
-			charges[i] = getCookie("sessOid" + i);
-			role.innerHTML += `${charges[i]}`;
-		}
-
-		console.log("role" + role);
-		console.log("charges " + charges);
-
+			if (charges[i] !== ("" || null || undefined)) {
+			role.innerHTML += `${charges[i]} `; 
+//			console.log(charges[i]);
+			} 
+		}   
 		return charges;
 	}
+	
 	/// DHEAD
 	if ((adminId == 1) | (adminId == 2) | (adminId == 3) | (adminId == 4)) {
 

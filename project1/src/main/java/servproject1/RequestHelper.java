@@ -68,7 +68,7 @@ public class RequestHelper {
 			break;
 		} 
 // Get Request details - takes param   [reqId] 
-		case "/project1/getRequest.do": {
+		case "/project1/getRequest.do": {           /////// WORKS ON EC2
 		try {
 			RequestWebService.getRequest(request, response);
 		} catch (Exception e) {

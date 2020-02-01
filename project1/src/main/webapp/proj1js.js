@@ -221,7 +221,7 @@ let logout = function () {
 	killCookie("sessSuper");
 	killCookie("sessDept");
 	killCookie("sessdata");
-
+	killCookie("isSuper");
 	killCookiePattern("sessOid"); // kill subs
 	killCookiePattern("dsessOid"); // kill depts
 	sessUser = "";
@@ -283,7 +283,7 @@ let redirect = function (u) {
 		}
 		spinner.style.display = "none";
 
-	}, 2000);
+	}, 3000);
 }
 
 

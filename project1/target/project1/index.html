@@ -1,0 +1,288 @@
+<!-- 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="../common/header.jspf"%>
+<%@ include file="../common/navigation.jspf"%>
+<%@ include file="../common/footer.jspf"%>
+ -->
+<!DOCTYPE html>
+
+<head>
+	<title>Requests-1</title>
+	<style>
+		footer.footer {
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+		}
+
+		#messages {
+			display: none;
+			color: green;
+		}
+
+		#bal {
+			display: block;
+			float: left;
+			color: green;
+			transform: translateY(15px);
+		}
+	</style>
+	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="proj1style.css" rel="stylesheet" />
+
+	<link rel="shortcut favicon" href="https://tmm-nov.s3.amazonaws.com/img/favicon.ico" /> 
+	<!-- /project1/src/main/webapp/favicon.ico
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+   -->
+</head>
+
+<body onload="sessionInfo();listRequest(true, 0)">
+	<!-- getUser(); -->
+	<nav class="navbar navbar-default">
+		<ul class="nav navbar-nav  userdata-mid ">
+			<li id="left-header">
+				<span id="role">
+					<h3><strong><em>TRMS</em></strong></h3>
+				</span>
+				<span id="bal"></span>
+			</li>
+
+			<li class="active"><a href="/project1/index.html">REQUESTS</a></li>
+			<li><a href="/project1/admin.html">STATUS</a></li>
+
+		</ul>
+
+		<ul class="nav navbar-nav navbar-right userdata">
+			<li class="user  ">
+				<div class="">
+					<a href="/project1/request.html" class="pull-left">
+						<button class="btn btn-primary logout ">&nbsp;&nbsp;Reimburse
+							Me&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;</a>
+					<a onclick="logout()" href="/project1/login.html" class="pull-right">
+						<button class="btn btn-default logout">&nbsp;&nbsp;Sign Out&nbsp;&nbsp;</button>&nbsp;&nbsp;
+					</a>
+				</div>
+
+				<span>User</span><span class="id" id="headerId"> </span><br />
+				<span>ID</span> <span class="id" id="userId"></span><br />
+				<span>Dept</span> <span class="id" id="userDept"></span><br />
+				<span>Super</span> <span class="id" id="userSuper"></span><br />
+				</div>
+			</li>
+		</ul>
+		<span class="header-title">
+			<h3>MY REQUESTS</h3>
+		</span>
+	</nav>
+	<div class="container">
+		<div id="info" class="row">
+
+			<div class="col col-xs-8">
+				<hr>
+				<table id="table">
+
+				</table>
+
+			</div>
+			<div class="col col-xs-4">
+
+				<div>
+					<button class="btn btn-primary" onclick="listRequest(true,0)"> Show All my Requests </button>
+					<hr>
+				</div>
+
+				<div>
+					<input placeholder="search by request id # ..." min="100" size="10px" id="reqId" type="number">
+					<button class="btn btn-primary" style="padding:3px 35px;margin-top:5px" onclick="getRequest()">
+						Request Details </button>
+					<hr>
+					<input placeholder="request id # ..." min="100" size="10px" id="autoreqid" type="number">
+					<input placeholder="supervisor id #" min="100" size="10px" id="superreqid" type="number">
+					<button class="btn btn-primary"
+						title="Set a 1-week timer and if Super has not replied, your request is forwarded a step to Dept. Head"
+						style="padding:3px 15px;margin-top:5px" onclick="setSuperTimeout()">&nbsp;&nbsp;&nbsp;Enroll in
+						Fast-Track!&nbsp;&nbsp;&nbsp;
+					</button>
+					<div id="messages"></div>
+					<hr>
+				</div>
+				<h4 id="text">To: UserId</h4>
+				<input id="currUserId" type="number">
+				<h4 id="text">Request Number</h4>
+				<input id="reqId" type="text">
+				<h4 id="text">Message</h4>
+				<input id="currDocs" type="number">
+				<button class="btn btn-primary" onclick="addTask()">Send</button>
+
+			</div>
+
+		</div>
+	</div><!-- end of container -->
+
+	<footer class="footer">
+		<div>
+			<p>Requests 1 - Revature<br />
+				<small>Copyright &copy; 2020 &nbsp;</small></p>
+		</div>
+	</footer>
+	<div id="benco1">
+		<div id="benco2">
+			<div class="detail"></div>
+		</div>
+	</div>
+</body>
+<script>
+
+	//SET TIMEOUT FOR 2 MINS 120 * 1000      120.000
+	//(USUALLY 1 WEEK) == 604800 * 1000 = 604.800.000
+	let setSuperTimeout = function () {
+		let messages = document.getElementById("messages");
+		messages.style.display = "block";
+		messages.innerHTML = "Auto-Approve sent, check status in one week.";
+		console.log(messages);
+		setTimeout(function () {
+			let stage = 2;
+			let autoreqid = document.getElementById("autoreqid");
+			let reqUpdateId = ""; // declare & erase subsequent
+			reqUpdateId = autoreqid.value; // append
+
+			let superreqid = document.getElementById("superreqid");
+			let supervisorId;  // just declare
+			supervisorId = superreqid.value; // overwrite
+
+			let text = "AUTO APPROVED (Supervisor)";
+			messages.style.display = "none";
+			updateReq(stage, reqUpdateId, supervisorId, text);
+		}, 20000)
+	}
+	// ALL MY USER DATA
+	let uId;
+
+	// GET BY REQUEST BY REQID
+	let reqId;
+
+
+	let getRequest = function () {
+
+		reqId = document.getElementById("reqId").value;
+		console.log("reqId " + reqId)
+		let xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				d = JSON.parse(this.responseText);
+				console.log("name: " + d.reqId + " length: " + this.responseText);
+
+
+				if (d.reqId != null) {
+
+					let status = statusCase(d.stage);
+					let adjusted = adjustedReq(d.reqAmt, d.reqType);
+
+					document.getElementById("table").innerHTML = `
+              		<h4>Details for Request #${d.reqId}</h4>
+				        <tr>
+			            <td><strong>#${d.reqId}</strong>&nbsp;   &nbsp; Request:</td>
+			            <td >${d.reqName}</td>
+				        </tr> 
+					    <tr>
+				        <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp;Date Requested:</td>
+				        <td>${d.reqDatetime}</td> 	 
+			        	</tr>
+				        	<tr >
+					        <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp;Current Date:</td>
+					        <td>${d.reqDatetime}</td> 	 
+				        	</tr>
+
+				        	<tr>
+				            <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp; Status:</td>
+				            <td><em>${status}</em></td>
+				        	</tr>  
+				            <tr>
+				            <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp; Request Amount:</td>
+				            <td>$${d.reqAmt}  </td>
+				        	</tr>
+				        	
+				        	<tr>
+				            <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp; Adjusted Amount:</td>
+				            <td><em>$${adjusted}</em></td>
+				        	</tr> 
+				        	<tr>
+				            <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp; Evaluation Type:</td>
+				            <td>${d.reqGradeType}  </td>
+				        	</tr>
+			        	   	<tr>
+				            <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp; Passing Cutoff:</td>
+				            <td>${d.reqGradePass}</td>
+				        	</tr> 
+				        	<tr>
+				            <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp; Event Type:</td>
+				            <td>${d.reqType}</td>
+					        </tr>
+				         
+					        <tr>
+				            <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp; Event Justification:</td>
+				            <td>${d.reqJustify}  </td>
+				        	</tr>
+			        	   	<tr>
+				            <td>&nbsp;&nbsp;  &nbsp;  &nbsp; &nbsp; Event Description:</td>
+				            <td>${d.reqDesc}</td>
+				        	</tr>
+				        <hr>				      
+					`;
+					console.log("just sent for" + d.reqId)
+
+				} else {
+					let infoContent = ` Oops! This request Id #${reqId} not found, try another!`;
+					let info = document.getElementById("table");
+					info.innerHTML = infoContent;
+				}
+			}
+
+		}
+		xhttp.open("GET", "getRequest.do?reqId=" + reqId, true);
+		xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com 
+		xhttp.send();
+	}
+
+	let addTask = function () {
+		let d = document.getElementById("taskId");
+		let taskId = ""; // declare & erase subsequent
+		taskId += d.value; // append
+
+		let dn = document.getElementById("currUserId");
+		let currUserId;  // just declare
+		currUserId = dn.value; // overwrite
+
+		let dt = document.getElementById("timeStamp");
+		let timeStamp;
+		timeStamp = dt.value;
+
+		let xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+
+				console.log("readyState: " + this.readyState + ", status: " + this.status);
+			}
+		}
+		xhttp.open("POST", "addTask.do", true);
+
+		xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');  // http://mydomain.com
+		xhttp.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+
+		xhttp.send("taskId=" + taskId + "&currUserId=" + currUserId + "&timeStamp=" + timeStamp);
+		console.log("Great, you sent taskId: #" + taskId + " submitted by: *" + currUserId + " on date: *" + timeStamp);
+
+	}
+
+</script>
+<script src="proj1js.js"></script>
+
+<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</HTML>
